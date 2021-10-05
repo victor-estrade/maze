@@ -23,8 +23,8 @@ explore: requirements
 		$(PYTHON_INTERPRETER) src/explore.py
 
 ## Play
-play: requirements
-		$(PYTHON_INTERPRETER) src/play.py
+play_random: requirements
+		$(PYTHON_INTERPRETER) src/play_random.py
 
 ## Make Dataset
 data: requirements
