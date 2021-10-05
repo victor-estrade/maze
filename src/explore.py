@@ -7,6 +7,8 @@ from src.world import WorldGenerator, WorldEnv
 from src.action import Action
 from src.game import Game
 from src.agent import RandomAgent
+from src.pathfinder import shortest_path_grid
+from src.policy import ShortestPathPolicy
 
 import numpy as np
 
@@ -14,16 +16,31 @@ import numpy as np
 def main():
     print("Hello world")
 
-    WIDTH = 10
-    HEIGHT = 13
+    WIDTH = 5
+    HEIGHT = 7
     N_WALLS = HEIGHT * WIDTH // 3
-    SEED = 42
+    SEED = None
     grid, start, exit = WorldGenerator(WIDTH, HEIGHT, N_WALLS, seed=SEED).generate()
+    #
+    # grid = np.array([[0., 0., 0., 1., 1., 1., 1.,],
+    #                  [0., 0., 0., 0., 0., 1., 1.,],
+    #                  [1., 0., 0., 0., 0., 0., 1.,],
+    #                  [0., 0., 0., 0., 3., 0., 2.,],
+    #                  [0., 0., 0., 1., 1., 0., 0.,]]
+    #                 )
+    # start = (4, 3)
+    # exit = (6, 3)
     env = WorldEnv(grid, start, exit)
+    print(grid)
     env.render()
-    agent = RandomAgent()
-    game = Game(env, agent)
-    game.play()
+    print(exit)
+    res = shortest_path_grid(env, *exit)
+    print(res)
+    policy = ShortestPathPolicy(env)
+    move = policy.next_move(start)
+    print(f"move = {move}")
+
+
 
 
 
