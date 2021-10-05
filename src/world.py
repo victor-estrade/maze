@@ -140,6 +140,13 @@ class WorldEnv():
         str += "\n" + top
         return str
 
+    def reset(self):
+        self.state = self.start
+        self.cumulative_reward = 0
+
+    def render(self):
+        print(self)
+
     def is_out_of_grid(self, x, y):
         return x < 0 or x >= self.grid.shape[1] or y < 0 or y >= self.grid.shape[0]
 
@@ -170,11 +177,3 @@ class WorldEnv():
         done = self.is_exit(x, y) or self.cumulative_reward < -200
         observation = self.state
         return observation, reward, done
-
-
-
-    def reset(self):
-        self.state = self.start
-
-    def render(self):
-        print(self)
