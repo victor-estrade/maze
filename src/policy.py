@@ -43,3 +43,9 @@ class MaxQfunctionPolicy():
                 best_move = move
                 max_value = value
         return best_move
+
+
+class RandomPolicy():
+    def next_move(self, state):
+        action = np.random.choice(list(Action))
+        return action

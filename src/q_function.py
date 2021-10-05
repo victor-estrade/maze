@@ -42,3 +42,19 @@ class Qfunction():
             for action in list(Action):
                 q_value_table[(state, action)] = self.q_value(action, state)
         return q_value_table
+
+
+
+class TabularQfunction():
+    def __init__(self, world, policy, gamma=1):
+        self.q_value_table = Qfunction(world, policy, gamma=1).compute_all_q_value()
+        self.gamma = gamma
+
+    def q_value(self, action, state):
+        return self.q_value_table[(state, action)]
+
+    def __call__(self, action, state):
+        return self.q_value(action, state)
+
+    def update_q_value(self, action, sate, new_value):
+        self.q_value_table[(state, action)] = new_value
