@@ -29,6 +29,10 @@ play_random: requirements
 play: requirements
 		$(PYTHON_INTERPRETER) src/play.py
 
+play_smart: requirements
+		$(PYTHON_INTERPRETER) src/play_smart.py
+
+
 ## Make Dataset
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
