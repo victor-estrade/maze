@@ -2,17 +2,20 @@
 
 import numpy as np
 
+from src.action import Action
 
 EMPTY = 0
 WALL = 1
 EXIT = 2
 START = 3
+PLAYER = 4
 
 CELL_TO_STR = {
     EMPTY: " ",
     WALL: "█",
     EXIT: "H",
     START: "O",
+    PLAYER: "i"
 }
 
 
@@ -122,16 +125,53 @@ class WorldEnv():
         self.start = start
         self.state = start
         self.exit = exit
+        self.cumulative_reward = 0
+
+        self._reward_table = {EMPTY:0, WALL:-5, START:0, EXIT:25}
 
     def __str__(self):
+        grid = np.array(self.grid, copy=True)
+        x, y = self.state
+        grid[y, x] = PLAYER
+
         top = ("#" * (self.grid.shape[1] + 2 ) ) + "\n"
         str = top
-        str += "\n".join([f"#{''.join([CELL_TO_STR[cell] for cell in line])}#" for line in self.grid])
+        str += "\n".join([f"#{''.join([CELL_TO_STR[cell] for cell in line])}#" for line in grid])
         str += "\n" + top
         return str
 
+    def is_out_of_grid(self, x, y):
+        return x < 0 or x >= self.grid.shape[1] or y < 0 or y >= self.grid.shape[0]
+
+    def cell_at(self, x, y):
+        """ Returns the cell content. If (x, y) is out of the grid the cell is assumed to be a WALL."""
+        if self.is_out_of_grid(x, y):
+            return WALL
+        else:
+            return self.grid[y, x]
+
+    def is_reachable(self, x, y):
+        return self.cell_at(x, y) != WALL
+
+    def is_exit(self, x, y):
+        return self.cell_at(x, y) == EXIT
+
     def step(self, action, observation):
-        pass
+        next_xy = np.array(self.state) + np.array(action.value)
+        x, y = next_xy[0], next_xy[1]
+
+        reward = self._reward_table[self.cell_at(x, y)]
+        reward -= 1
+        self.cumulative_reward += reward
+
+        if self.is_reachable(x, y):
+            self.state = (x, y)
+
+        done = self.is_exit(x, y) or self.cumulative_reward < -200
+        observation = self.state
+        return observation, reward, done
+
+
 
     def reset(self):
         self.state = self.start
