@@ -21,14 +21,10 @@ def main():
     grid, start, exit = WorldGenerator(WIDTH, HEIGHT, N_WALLS, seed=SEED).generate()
     env = WorldEnv(grid, start, exit)
     env.render()
-    print(Action.UP)
-    print(Action.UP.value)
-    print(len(Action))
-    print( np.random.choice(list(Action)) )
     agent = RandomAgent()
     game = Game(env, agent)
     game.play()
-    
+
 
 
 
