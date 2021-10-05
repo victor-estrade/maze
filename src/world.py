@@ -175,6 +175,9 @@ class WorldEnv():
             cells.append((x, y-1))
         return cells
 
+    def all_possible_states(self, x, y):
+        return [(x, y) for x in range(self.grid.shape[1]) for y in range(self.grid.shape[0]) if self.is_reachable(x, y)]
+
     def step(self, action, observation):
         next_xy = np.array(self.state) + np.array(action.value)
         x, y = next_xy[0], next_xy[1]
