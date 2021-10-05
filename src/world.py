@@ -175,7 +175,7 @@ class WorldEnv():
             cells.append((x, y-1))
         return cells
 
-    def all_possible_states(self, x, y):
+    def all_possible_states(self):
         return [(x, y) for x in range(self.grid.shape[1]) for y in range(self.grid.shape[0]) if self.is_reachable(x, y)]
 
     def step(self, action, observation):
