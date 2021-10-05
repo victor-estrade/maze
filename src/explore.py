@@ -12,10 +12,10 @@ def main():
     WIDTH = 10
     HEIGHT = 13
     N_WALLS = 13*5
-    grid = WorldGenerator(WIDTH, HEIGHT, N_WALLS).generate()
-    print(grid)
-    env = WorldEnv(grid)
-    print(env)
+    SEED = 42
+    grid, start, exit = WorldGenerator(WIDTH, HEIGHT, N_WALLS, seed=SEED).generate()
+    env = WorldEnv(grid, start, exit)
+    env.render()
     print(Action.UP)
     print(Action.UP.value)
 

@@ -20,30 +20,32 @@ class DummyWorldGenerator():
     def __init__(self, height, width):
         self.height = height
         self.width = width
+        self.rng = np.random.default_rng()
 
     def generate(self):
-        grid = np.random.randint(0, 2, size=(self.height, self.width))
-        start_x = np.random.randint(self.width)
-        start_y = np.random.randint(self.height)
+        grid = self.rng.integers(0, 2, size=(self.height, self.width))
+        start_x = self.rng.integers(self.width)
+        start_y = self.rng.integers(self.height)
         grid[start_y, start_x] = START
-        exit_x = np.random.randint(self.width)
-        exit_y = np.random.randint(self.height)
+        exit_x = self.rng.integers(self.width)
+        exit_y = self.rng.integers(self.height)
         while exit_x == start_x and exit_y == start_y:
-            exit_x = np.random.randint(self.width)
-            exit_y = np.random.randint(self.height)
+            exit_x = self.rng.integers(self.width)
+            exit_y = self.rng.integers(self.height)
         grid[exit_y, exit_x] = EXIT
         return grid
 
 
 class WorldGenerator():
-    def __init__(self, height, width, n_walls):
+    def __init__(self, height, width, n_walls, seed=None):
         self.height = height
         self.width = width
         self.n_walls = n_walls
+        self.rng = np.random.default_rng(seed)
 
     def random_cell(self):
-        x = np.random.randint(self.width)
-        y = np.random.randint(self.height)
+        x = self.rng.integers(self.width)
+        y = self.rng.integers(self.height)
         return x, y
 
     def neighbour(self, x, y):
@@ -60,7 +62,7 @@ class WorldGenerator():
 
     def random_neighbour(self, x, y):
         cells = self.neighbour(x, y)
-        i = np.random.randint(len(cells))
+        i = self.rng.integers(len(cells))
         picked_cell = cells[i]
         return picked_cell
 
@@ -82,7 +84,7 @@ class WorldGenerator():
             exit_x, exit_y = self.random_cell()
         grid[exit_y, exit_x] = EXIT
 
-        return grid
+        return grid, (start_x, start_y), (exit_x, exit_y)
 
 
 
@@ -94,7 +96,7 @@ class WorldGeneratorBetter(WorldGenerator):
         grid[y, x] = EMPTY
         dig_candidates = self.neighbour(x, y)
         while grid.sum() >= self.n_walls:
-            idx = np.random.randint(len(dig_candidates))
+            idx = self.rng.integers(len(dig_candidates))
             x, y = dig_candidates[idx]
             grid[y, x] = EMPTY
             cells = self.neighbour(x, y)
@@ -115,8 +117,11 @@ class WorldGeneratorBetter(WorldGenerator):
 
 
 class WorldEnv():
-    def __init__(self, grid):
+    def __init__(self, grid, start, exit):
         self.grid = grid
+        self.start = start
+        self.state = start
+        self.exit = exit
 
     def __str__(self):
         top = ("#" * (self.grid.shape[1] + 2 ) ) + "\n"
@@ -124,3 +129,12 @@ class WorldEnv():
         str += "\n".join([f"#{''.join([CELL_TO_STR[cell] for cell in line])}#" for line in self.grid])
         str += "\n" + top
         return str
+
+    def step(self, action, observation):
+        pass
+
+    def reset(self):
+        self.state = self.start
+
+    def render(self):
+        print(self)
