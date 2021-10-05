@@ -9,6 +9,7 @@ from src.game import Game
 from src.agent import RandomAgent
 from src.pathfinder import shortest_path_grid
 from src.policy import ShortestPathPolicy
+from src.q_function import Qfunction
 
 import numpy as np
 
@@ -39,6 +40,10 @@ def main():
     policy = ShortestPathPolicy(env)
     move = policy.next_move(start)
     print(f"move = {move}")
+    q_function = Qfunction(env, policy)
+    q_value = q_function.q_value(move, start)
+    print(f"q-value = {q_value}")
+
 
 
 
