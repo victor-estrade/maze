@@ -5,7 +5,7 @@ import logging
 
 from src.world import WorldGenerator, WorldEnv
 from src.action import Action
-from src.play import Game
+from src.game import Game
 from src.agent import RandomAgent
 
 import numpy as np
@@ -16,7 +16,7 @@ def main():
 
     WIDTH = 10
     HEIGHT = 13
-    N_WALLS = 13*5
+    N_WALLS = HEIGHT * WIDTH // 3
     SEED = 42
     grid, start, exit = WorldGenerator(WIDTH, HEIGHT, N_WALLS, seed=SEED).generate()
     env = WorldEnv(grid, start, exit)
