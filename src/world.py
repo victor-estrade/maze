@@ -163,6 +163,18 @@ class WorldEnv():
     def is_exit(self, x, y):
         return self.cell_at(x, y) == EXIT
 
+    def get_reachable_neighboor(self, x, y):
+        cells = []
+        if self.is_reachable(x+1, y):
+            cells.append((x+1, y))
+        if self.is_reachable(x-1, y):
+            cells.append((x-1, y))
+        if self.is_reachable(x, y+1):
+            cells.append((x, y+1))
+        if self.is_reachable(x, y-1):
+            cells.append((x, y-1))
+        return cells
+
     def step(self, action, observation):
         next_xy = np.array(self.state) + np.array(action.value)
         x, y = next_xy[0], next_xy[1]
