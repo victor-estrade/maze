@@ -3,6 +3,7 @@ import click
 import logging
 
 from src.world import WorldGenerator, WorldEnv
+from src.action import Action
 
 @click.command()
 def main():
@@ -15,6 +16,8 @@ def main():
     print(grid)
     env = WorldEnv(grid)
     print(env)
+    print(Action.UP)
+    print(Action.UP.value)
 
 
 
