@@ -2,15 +2,18 @@
 import click
 import logging
 
-from src.world import MazeGenerator, MazeEnv
+from src.world import WorldGenerator, WorldEnv
 
 @click.command()
 def main():
     print("Hello world")
 
-    grid = MazeGenerator(5, 7).generate()
+    WIDTH = 10
+    HEIGHT = 13
+    N_WALLS = 13*5
+    grid = WorldGenerator(WIDTH, HEIGHT, N_WALLS).generate()
     print(grid)
-    env = MazeEnv(grid)
+    env = WorldEnv(grid)
     print(env)
 
 
