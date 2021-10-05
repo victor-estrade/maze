@@ -22,6 +22,10 @@ requirements: test_environment
 explore: requirements
 		$(PYTHON_INTERPRETER) src/explore.py
 
+## Play
+play: requirements
+		$(PYTHON_INTERPRETER) src/play.py
+
 ## Make Dataset
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
