@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
 
 import click
 import logging
 
 from src.world import WorldGenerator, WorldEnv
 from src.action import Action
+from src.play import Game
+from src.agent import RandomAgent
+
+import numpy as np
 
 @click.command()
 def main():
@@ -18,6 +23,14 @@ def main():
     env.render()
     print(Action.UP)
     print(Action.UP.value)
+    print(len(Action))
+    print( np.random.choice(list(Action)) )
+    agent = RandomAgent()
+    game = Game(env, agent)
+    game.play()
+    
+
+
 
 
 
