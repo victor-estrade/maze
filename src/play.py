@@ -7,7 +7,7 @@ from src.world import WorldGenerator, WorldEnv
 from src.action import Action
 from src.game import Game
 from src.agent import PolicyDrivenAgent
-from src.policy import RandomPolicy
+from src.policy import RandomPolicy, MaxQfunctionPolicy
 from src.q_function import TabularQfunction
 
 import numpy as np
@@ -25,7 +25,7 @@ def main():
     env.render()
     q_function = TabularQfunction(env, RandomPolicy())
     policy = MaxQfunctionPolicy(q_function)
-    agent = PolicyDrivenAgent()
+    agent = PolicyDrivenAgent(policy)
     game = Game(env, agent)
     game.play()
 
