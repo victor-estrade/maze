@@ -26,6 +26,9 @@ explore: requirements
 play_random: requirements
 		$(PYTHON_INTERPRETER) src/play_random.py
 
+play: requirements
+		$(PYTHON_INTERPRETER) src/play.py
+
 ## Make Dataset
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
